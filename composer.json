@@ -3,6 +3,15 @@
     "description": "Standalone icon picker Blade component for Livewire forms",
     "type": "library",
     "license": "MIT",
+    "keywords": ["laravel", "livewire", "blade", "icon", "icon-picker", "blade-icons", "heroicons"],
+    "homepage": "https://github.com/nickperkins/blade-icon-picker",
+    "authors": [
+        {
+            "name": "Nick Perkins",
+            "homepage": "https://github.com/nickperkins",
+            "role": "Developer"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "IconPicker\\": "src/"
