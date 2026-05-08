@@ -107,6 +107,30 @@ class CreateMenu extends Component
 - **Any blade-icons pack:** Heroicons, Font Awesome, custom — all auto-discovered
 - **Standalone CSS:** No Tailwind dependency; override colors with CSS custom properties
 
+## Dark mode
+
+The component ships dark-mode variables but does **not** auto-detect `prefers-color-scheme` — that’s your app’s job. Activate dark styles by adding the `ip-dark` class to the component or any ancestor, or by using a `[data-theme="dark"]` attribute on a parent element.
+
+```blade
+{{-- Follow a data-theme attribute on <html> (no extra markup needed) --}}
+{{-- In your CSS: [data-theme="dark"] .ip-root { } is already handled --}}
+
+{{-- Or apply ip-dark directly --}}
+<x-icon-picker::icon-picker
+    wire:model="icon"
+    :value="$icon"
+    class="ip-dark"
+/>
+```
+
+If you want to mirror the OS preference, add it yourself:
+
+```css
+@media (prefers-color-scheme: dark) {
+    .ip-root { /* your app's dark scope */ }
+}
+```
+
 ## Theming
 
 Override the CSS custom properties anywhere in your stylesheet:

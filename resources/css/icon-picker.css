@@ -232,21 +232,34 @@
     font-size: 0.8125rem;
 }
 
-/* --- Dark mode --- */
-@media (prefers-color-scheme: dark) {
-    .ip-root {
-        --ip-bg: #1f2937;
-        --ip-text: #f9fafb;
-        --ip-text-muted: #9ca3af;
-        --ip-border: #374151;
-        --ip-primary-light: #312e81;
-    }
+/* --- Dark mode ---
+   Apply the class .ip-dark to .ip-root or any ancestor to activate dark styles.
+   This lets the consuming app control when dark mode activates (OS preference,
+   user toggle, data attribute, etc.) rather than auto-detecting it.
 
-    .ip-trigger:disabled {
-        background: #111827;
-    }
+   Example — mirror the OS preference:
+       <div class="ip-root" :class="{ 'ip-dark': window.matchMedia('(prefers-color-scheme: dark)').matches }">
 
-    .ip-empty code {
-        background: #374151;
-    }
+   Example — follow a parent data attribute (e.g. data-theme="dark" on <html>):
+       In your CSS: [data-theme="dark"] .ip-root { /* handled by .ip-dark below *\/ }
+       Or just add ip-dark to the component based on your app's theme state.
+*/
+.ip-dark,
+.ip-dark .ip-root,
+[data-theme="dark"] .ip-root {
+    --ip-bg: #1f2937;
+    --ip-text: #f9fafb;
+    --ip-text-muted: #9ca3af;
+    --ip-border: #374151;
+    --ip-primary-light: #312e81;
+}
+
+.ip-dark .ip-trigger:disabled,
+[data-theme="dark"] .ip-root .ip-trigger:disabled {
+    background: #111827;
+}
+
+.ip-dark .ip-empty code,
+[data-theme="dark"] .ip-root .ip-empty code {
+    background: #374151;
 }
