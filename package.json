@@ -1,0 +1,10 @@
+{
+    "private": true,
+    "scripts": {
+        "build": "node bin/build.js"
+    },
+    "devDependencies": {
+        "@alpinejs/focus": "^3.14.0",
+        "esbuild": "^0.25.0"
+    }
+}

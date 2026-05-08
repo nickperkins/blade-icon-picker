@@ -1,0 +1,47 @@
+{
+    "name": "nickperkins/blade-icon-picker",
+    "description": "Standalone icon picker Blade component for Livewire forms",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "IconPicker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "IconPicker\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "blade-ui-kit/blade-icons": "^1.0",
+        "livewire/livewire": "^3.0",
+        "illuminate/support": "^10.0 || ^11.0 || ^12.0"
+    },
+    "suggest": {
+        "blade-ui-kit/blade-heroicons": "Provides Heroicons for the icon picker"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "IconPicker\\IconPickerServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "require-dev": {
+        "orchestra/testbench": "^9.0 || ^10.0",
+        "pestphp/pest": "^3.0",
+        "blade-ui-kit/blade-heroicons": "^2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test:parallel": "vendor/bin/pest --parallel"
+    }
+}
