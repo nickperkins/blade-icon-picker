@@ -31,4 +31,4 @@ Scans Heroicons (and any blade-icons pack) and presents them in a searchable, sc
 - Blade views: `icon-picker::` namespace, kebab-case filenames
 - JS components: camelCase in `resources/js/components/`
 - CSS: `resources/css/icon-picker.css`
-- Build output: `resources/dist/` (gitignored)
+- Build output: `resources/dist/` (gitignored — built by CI and release workflow)

@@ -1,0 +1,11 @@
+# Only ship what Packagist users need at runtime
+/.github/       export-ignore
+/tests/         export-ignore
+/docs/          export-ignore
+/bin/           export-ignore
+AGENTS.md       export-ignore
+Makefile        export-ignore
+package.json    export-ignore
+package-lock.json export-ignore
+.gitattributes  export-ignore
+.gitignore      export-ignore
