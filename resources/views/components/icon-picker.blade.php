@@ -8,10 +8,11 @@
         placeholder: {!! \Illuminate\Support\Js::from($placeholder) !!},
         disabled: {{ $disabled ? 'true' : 'false' }},
         initialSelectedIcon: {!! \Illuminate\Support\Js::from($selectedIcon) !!},
+        event: {!! \Illuminate\Support\Js::from($event) !!},
     })"
     x-on:scroll.window="close()"
     x-on:resize.window="close()"
-    {{ $attributes->except(['placeholder', 'disabled', 'value']) }}
+    {{ $attributes->except(['placeholder', 'disabled', 'value', 'event']) }}
 >
     {{-- Trigger wrapper --}}
     <div class="ip-trigger-wrapper">

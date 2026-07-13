@@ -13,6 +13,7 @@ class IconPicker extends Component
         public string $placeholder = 'Select an icon',
         public bool $disabled = false,
         public ?string $value = null,
+        public string $event = 'icon-picker-selected',
     ) {}
 
     public function render(): View
@@ -31,6 +32,7 @@ class IconPicker extends Component
             'placeholder'    => $this->placeholder,
             'disabled'       => $this->disabled,
             'value'          => $this->value,
+            'event'          => $this->event,
             'endpoint'       => route('icon-picker.icons'),
             'setsEndpoint'   => route('icon-picker.sets'),
             'selectedIcon'   => $selectedIcon,

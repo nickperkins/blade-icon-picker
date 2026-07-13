@@ -9,6 +9,7 @@ export function iconPicker(config) {
         setsEndpoint: config.setsEndpoint,
         placeholder: config.placeholder,
         disabled: config.disabled,
+        event: config.event || 'icon-picker-selected',
 
         // --- state ---
         isOpen: false,
@@ -149,25 +150,43 @@ export function iconPicker(config) {
         },
 
         // --- selection ---
+        // Update selectedId locally and propagate to the parent Livewire
+        // component. The third argument to $wire.$set triggers the updated()
+        // lifecycle hook, which the page editor uses to reload the preview.
+        // We also dispatch a generic icon-picker-selected event so consumers
+        // that need their own preview logic can listen in.
         select(icon) {
             this.selectedId = icon.id;
             this.selectedIconData = icon;
             this.close();
             this.syncToLivewire(icon.id);
+            this.dispatchSelected(icon.id);
         },
         clear() {
             this.selectedId = '';
             this.selectedIconData = null;
             this.syncToLivewire('');
+            this.dispatchSelected('');
         },
         syncToLivewire(value) {
             const modelName = this.resolveWireModel();
             if (!modelName) return;
             try {
-                this.$wire.set(modelName, value);
+                this.$wire.$set(modelName, value, true);
             } catch (_) {
                 // Not inside a Livewire component — no-op
             }
+        },
+        dispatchSelected(value) {
+            // Generic event consumers can listen to. The detail includes
+            // the selected icon id and the wire:model path (when present).
+            const modelName = this.resolveWireModel();
+            try {
+                this.$dispatch(this.event, {
+                    value,
+                    model: modelName,
+                });
+            } catch (_) {}
         },
         resolveWireModel() {
             const attr = Array.from(this.$el.attributes).find(a =>
