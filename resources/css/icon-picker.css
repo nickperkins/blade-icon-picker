@@ -1,4 +1,4 @@
-/* Blade Icon Picker — Standalone CSS (~150 lines, no framework dependency) */
+/* Blade Icon Picker — Standalone CSS (AJAX edition, no framework dependency) */
 
 /* Custom properties for theming — override these in your own stylesheet */
 .ip-root {
@@ -102,7 +102,7 @@
     position: absolute;
     top: calc(100% + 0.25rem);
     left: 0;
-    right: 0;
+    min-width: 420px;
     z-index: 50;
     background: var(--ip-bg);
     border: 1px solid var(--ip-border);
@@ -110,6 +110,31 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
                 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+}
+
+/* --- Filter Bar --- */
+.ip-filters {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--ip-border);
+}
+
+.ip-filter-select {
+    flex: 1;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--ip-border);
+    border-radius: 0.375rem;
+    background: var(--ip-bg);
+    font-size: 0.8125rem;
+    color: var(--ip-text);
+    cursor: pointer;
+    outline: none;
+}
+
+.ip-filter-select:focus {
+    border-color: var(--ip-primary);
+    box-shadow: 0 0 0 2px var(--ip-focus-ring);
 }
 
 /* --- Search Input --- */
@@ -131,29 +156,31 @@
 /* --- Icon Grid --- */
 .ip-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
     gap: 0.5rem;
     padding: 0.5rem;
-    max-height: 300px;
+    max-height: 420px;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ip-border) transparent;
 }
 
-@media (min-width: 640px) {
-    .ip-grid {
-        grid-template-columns: repeat(6, 1fr);
-    }
+/* WebKit scrollbar styles */
+.ip-grid::-webkit-scrollbar {
+    width: 8px;
 }
 
-@media (min-width: 1024px) {
-    .ip-grid {
-        grid-template-columns: repeat(9, 1fr);
-    }
+.ip-grid::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-@media (min-width: 1280px) {
-    .ip-grid {
-        grid-template-columns: repeat(12, 1fr);
-    }
+.ip-grid::-webkit-scrollbar-thumb {
+    background: var(--ip-border);
+    border-radius: 4px;
+}
+
+.ip-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--ip-text-muted);
 }
 
 /* --- Icon Button --- */
@@ -163,7 +190,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.25rem;
-    padding: 0.5rem 0.25rem;
+    padding: 0.625rem 0.25rem;
     background: none;
     border: 1px solid transparent;
     border-radius: 0.375rem;
@@ -178,8 +205,8 @@
 }
 
 .ip-icon-btn svg {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
     flex-shrink: 0;
 }
 
@@ -213,6 +240,32 @@
 .ip-icon-btn--active {
     outline: 2px solid var(--ip-primary);
     outline-offset: -2px;
+}
+
+/* --- Loading Indicator --- */
+.ip-loading {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    color: var(--ip-text-muted);
+    font-size: 0.875rem;
+}
+
+.ip-loading-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--ip-border);
+    border-top-color: var(--ip-primary);
+    border-radius: 50%;
+    animation: ip-spin 0.6s linear infinite;
+}
+
+@keyframes ip-spin {
+    to { transform: rotate(360deg); }
 }
 
 /* --- Empty State --- */

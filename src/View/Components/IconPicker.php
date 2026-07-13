@@ -8,8 +8,6 @@ use Illuminate\View\Component;
 
 class IconPicker extends Component
 {
-    private const CHUNK_SIZE = 30;
-
     public function __construct(
         private IconManager $manager,
         public string $placeholder = 'Select an icon',
@@ -19,15 +17,23 @@ class IconPicker extends Component
 
     public function render(): View
     {
-        $allIcons = $this->manager->getAllIcons();
-        $iconArrays = array_map(fn ($icon) => $icon->toArray(), $allIcons);
+        // Resolve the selected icon's SVG + label on initial render so the
+        // trigger button displays it before any AJAX fetch happens.
+        $selectedIcon = null;
+        if ($this->value) {
+            $icon = $this->manager->findIcon($this->value);
+            if ($icon) {
+                $selectedIcon = $icon->toArray();
+            }
+        }
 
         return view('icon-picker::components.icon-picker', [
-            'iconList'    => $iconArrays,
-            'placeholder' => $this->placeholder,
-            'disabled'    => $this->disabled,
-            'value'       => $this->value,
-            'chunkSize'   => self::CHUNK_SIZE,
+            'placeholder'    => $this->placeholder,
+            'disabled'       => $this->disabled,
+            'value'          => $this->value,
+            'endpoint'       => route('icon-picker.icons'),
+            'setsEndpoint'   => route('icon-picker.sets'),
+            'selectedIcon'   => $selectedIcon,
         ]);
     }
 }
