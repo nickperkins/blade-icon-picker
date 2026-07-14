@@ -9,10 +9,11 @@
         disabled: {{ $disabled ? 'true' : 'false' }},
         initialSelectedIcon: {!! \Illuminate\Support\Js::from($selectedIcon) !!},
         event: {!! \Illuminate\Support\Js::from($event) !!},
+        wireModel: {!! \Illuminate\Support\Js::from($wireModel ?? '') !!},
     })"
     x-on:scroll.window="close()"
     x-on:resize.window="close()"
-    {{ $attributes->except(['placeholder', 'disabled', 'value', 'event']) }}
+    {{ $attributes->except(['placeholder', 'disabled', 'value', 'event', 'wire-model']) }}
 >
     {{-- Trigger wrapper --}}
     <div class="ip-trigger-wrapper">

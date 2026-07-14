@@ -10,7 +10,7 @@ export function iconPicker(config) {
         placeholder: config.placeholder,
         disabled: config.disabled,
         event: config.event || 'icon-picker-selected',
-
+        wireModel: config.wireModel || null,
         // --- state ---
         isOpen: false,
         selectedId: config.currentValue || '',
@@ -189,6 +189,7 @@ export function iconPicker(config) {
             } catch (_) {}
         },
         resolveWireModel() {
+            if (this.wireModel) return this.wireModel;
             const attr = Array.from(this.$el.attributes).find(a =>
                 a.name.startsWith('wire:model')
             );
