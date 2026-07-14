@@ -2,6 +2,7 @@
 
 namespace IconPicker\Tests;
 
+use IconPicker\IconPickerRoutes;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -19,5 +20,11 @@ abstract class TestCase extends Orchestra
     protected function defineEnvironment($app): void
     {
         // Use blade-icons defaults; blade-heroicons auto-registers its set
+
+        // Register the icon-picker AJAX routes so the Blade component
+        // can resolve the endpoint URLs during test rendering.
+        $app['router']->group(['prefix' => 'icon-picker/api'], function ($router) {
+            IconPickerRoutes::register('');
+        });
     }
 }

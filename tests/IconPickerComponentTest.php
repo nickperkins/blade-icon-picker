@@ -20,17 +20,18 @@ test('renders custom placeholder', function () {
     $view->assertSee('Choose a menu icon', false);
 });
 
-// ── Value binding ──
+// ── Endpoint wiring ──
 
-test('embeds icon data as JSON payload in x-data', function () {
+test('passes endpoint URL in x-data instead of serialized icon data', function () {
     $view = $this->blade(
         '<x-icon-picker::icon-picker :value="$value" />',
         ['value' => null],
     );
 
-    // Js::from wraps non-empty arrays in JSON.parse('...') for XSS safety
-    $view->assertSee('JSON.parse(', false);
+    $view->assertSee('endpoint:', false);
+    $view->assertSee('setsEndpoint:', false);
     $view->assertSee('currentValue', false);
+    $view->assertSee('initialSelectedIcon', false);
 });
 
 test('renders selected value when provided', function (?string $value, string $expected) {
@@ -45,6 +46,17 @@ test('renders selected value when provided', function (?string $value, string $e
     'empty string' => ['', "''"],
     'null' => [null, 'null'],
 ]);
+
+test('passes selected icon data for initial render', function () {
+    $view = $this->blade(
+        '<x-icon-picker::icon-picker :value="$value" />',
+        ['value' => 'heroicon-o-home'],
+    );
+
+    // The selected icon's SVG and label should be embedded for initial display
+    $view->assertSee('initialSelectedIcon', false);
+    $view->assertSee('Home', false);
+});
 
 // ── Disabled state ──
 
@@ -89,20 +101,19 @@ test('clear button has accessible label', function () {
     $view->assertSee('aria-label="Clear selection"', false);
 });
 
-// ── Empty state ──
+// ── Filter controls ──
 
-test('shows help message when no icon packs are installed', function () {
-    $manager = Mockery::mock(\IconPicker\Icons\IconManager::class);
-    $manager->shouldReceive('getAllIcons')->andReturn([]);
-    $this->app->instance(\IconPicker\Icons\IconManager::class, $manager);
-
+test('renders set and variant filter dropdowns', function () {
     $view = $this->blade(
         '<x-icon-picker::icon-picker :value="$value" />',
         ['value' => null],
     );
 
-    $view->assertSee('No icon sets found', false);
-    $view->assertSee('composer require blade-ui-kit/blade-heroicons', false);
+    $view->assertSee('ip-filters', false);
+    $view->assertSee('ip-filter-select', false);
+    $view->assertSee('All sets', false);
+    $view->assertSee('All styles', false);
+    $view->assertSee('Outline', false);
 });
 
 // ── Wire:model ──
